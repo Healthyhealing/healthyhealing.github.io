@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blog Post - Healthy Healing</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f8ff;
+      color: #333;
+      line-height: 1.6;
+      margin: 0;
+      padding: 2rem;
+    }
+    .container {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      max-width: 800px;
+      margin: auto;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    h1, h2, h3 {
+      color: #2c3e50;
+    }
+    p {
+      font-size: 1.1rem;
+    }
+    ul {
+      margin: 1rem 0;
+      padding-left: 20px;
+    }
+    a {
+      color: #90ee90;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1 id="post-title"></h1>
+    <div id="post-content"></div>
+  </div>
+
+  <script>
+    // Function to fetch the Markdown file and render it
+    const urlParams = new URLSearchParams(window.location.search);
+    const postFile = urlParams.get('post');  // Get the post file from URL query
+
+    if (postFile) {
+      fetch('posts/' + postFile)
+        .then(response => response.text())
+        .then(markdown => {
+          // Render markdown to HTML
+          const content = marked(markdown);
+          document.getElementById('post-title').textContent = postFile.replace('.md', '').replace(/-/g, ' ').toUpperCase();
+          document.getElementById('post-content').innerHTML = content;
+        })
+        .catch(error => {
+          document.getElementById('post-content').innerHTML = '<p>Error loading the post. Please try again later.</p>';
+        });
+    } else {
+      document.getElementById('post-content').innerHTML = '<p>No post selected.</p>';
+    }
+  </script>
+</body>
+</html>
