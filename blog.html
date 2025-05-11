@@ -1,37 +1,62 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Healthy Healing Blog</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4fff4;
-      padding: 20px;
-    }
-    h1 {
-      color: #1b5e20;
-    }
-    ul {
-      padding-left: 20px;
-    }
-    li {
-      margin: 10px 0;
-    }
-    a {
-      color: #388e3c;
-      text-decoration: none;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthy Healing Blog</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('background.jpg');
+            background-size: cover;
+            color: white;
+            padding: 50px;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #2e7d32;
+        }
+        code {
+            background: #eee;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        .post-list {
+            list-style: none;
+            padding: 0;
+        }
+        .post-list li {
+            margin: 20px 0;
+        }
+        a {
+            color: #fff;
+            text-decoration: none;
+        }
+        a:hover {
+            color: #2e7d32;
+        }
+    </style>
 </head>
 <body>
-  <h1>📚 Blog Posts</h1>
-  <ul>
-    <li><a href="posts/immunity.md">5 Natural Ways to Boost Your Immune System</a></li>
-    <li><a href="posts/sleep.md">How Better Sleep Helps Your Health</a></li>
-    <!-- ✨ Add new blog links below like this:
-    <li><a href="posts/YOUR_FILENAME.md">YOUR TITLE</a></li>
-    -->
-  </ul>
-  <p><em>To add a new post, just upload a .md file to the posts folder!</em></p>
+    <h1>Welcome to the Healthy Healing Blog</h1>
+    <ul class="post-list" id="post-list"></ul>
+    <script>
+        fetch('posts/')
+            .then(res => res.text())
+            .then(data => {
+                const posts = data.split('\n').filter(file => file.endsWith('.md'));
+                const postList = document.getElementById('post-list');
+                posts.forEach(post => {
+                    const li = document.createElement('li');
+                    const link = document.createElement('a');
+                    link.href = 'view.html?file=posts/' + post;
+                    link.textContent = post.replace('.md', '').replace(/-/g, ' ').toUpperCase();
+                    li.appendChild(link);
+                    postList.appendChild(li);
+                });
+            });
+    </script>
 </body>
 </html>
